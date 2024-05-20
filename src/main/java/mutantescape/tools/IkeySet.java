@@ -1,6 +1,7 @@
 package mutantescape.tools;
 
 import com.mojang.logging.LogUtils;
+import mutantescape.MutantEscape;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +33,9 @@ public class IkeySet {
        }
     }
 
-
+    public static String ModKey(String key){
+        return MutantEscape.MODID+"_" +key.toLowerCase().replace(" ","_");
+    }
 
 
 
