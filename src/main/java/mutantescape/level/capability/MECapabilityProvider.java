@@ -12,14 +12,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MECapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-    public static Capability<MECapaAttribute> PLAYER_ATTRIBUTE= CapabilityManager.get(new CapabilityToken<MECapaAttribute>() {
-    }); private MECapaAttribute H2ATTRIBUTE=null;
+    public static Capability<MECapabilityAttributes> PLAYER_ATTRIBUTE= CapabilityManager.get(new CapabilityToken<>() {});
 
-    private final LazyOptional<MECapaAttribute> optional=LazyOptional.of(this::createAttrube);
+    private MECapabilityAttributes H2ATTRIBUTE=null;
 
-    private MECapaAttribute createAttrube() {
+    private final LazyOptional<MECapabilityAttributes> optional=LazyOptional.of(this::createAttribute);
+
+    private MECapabilityAttributes createAttribute() {
         if (this.H2ATTRIBUTE==null){
-            this.H2ATTRIBUTE=new MECapaAttribute();
+            this.H2ATTRIBUTE=new MECapabilityAttributes();
         }
         return this.H2ATTRIBUTE;
 
@@ -36,14 +37,14 @@ public class MECapabilityProvider implements ICapabilityProvider, INBTSerializab
 
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag IAttrube=new CompoundTag();
-        createAttrube().savaNBtData(IAttrube);
-        return IAttrube;
+        CompoundTag IAttribute=new CompoundTag();
+        createAttribute().saveNbtData(IAttribute);
+        return IAttribute;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        createAttrube().loadNbtData(nbt);
+        createAttribute().loadNbtData(nbt);
     }
 
 }

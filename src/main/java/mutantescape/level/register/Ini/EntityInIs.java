@@ -22,7 +22,7 @@ public class EntityInIs {
     }
 
 
-   public static HashMap<String,EIni> ENTITYS_INI=new HashMap<>();
+   public static HashMap<String,EIni> ENTITYS_INI =new HashMap<>();
 
 
 

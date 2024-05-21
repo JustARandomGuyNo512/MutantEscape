@@ -7,8 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import org.slf4j.Logger;
 
-import java.util.UUID;
-
 public class IkeySet {
     private static final Logger LOGGER = LogUtils.getLogger();
 

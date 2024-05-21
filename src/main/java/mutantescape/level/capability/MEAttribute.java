@@ -2,9 +2,28 @@ package mutantescape.level.capability;
 
 import net.minecraft.network.FriendlyByteBuf;
 
-public class MEAttrubes {
+public class MEAttribute {
     String ID;
-    String Name;
+    String name;
+    boolean needSync;
+    boolean onlyC2S;
+
+    public boolean isNeedSync() {
+        return needSync;
+    }
+
+    public void setNeedSync(boolean needSync) {
+        this.needSync = needSync;
+    }
+
+    public boolean isOnlyC2S() {
+        return onlyC2S;
+    }
+
+    public void setOnlyC2S(boolean onlyC2S) {
+        this.onlyC2S = onlyC2S;
+    }
+
     public String getID() {
         return ID;
     }
@@ -14,11 +33,11 @@ public class MEAttrubes {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public boolean isStart() {
@@ -55,8 +74,8 @@ public class MEAttrubes {
 
     boolean start;
     double min,max,value;
-    public static MEAttrubes deserialize(FriendlyByteBuf buffer) {//序列化
-        MEAttrubes table = new MEAttrubes();
+    public static MEAttribute deserialize(FriendlyByteBuf buffer) {//序列化
+        MEAttribute table = new MEAttribute();
         table.setID(buffer.readUtf());
         table.setName(buffer.readUtf());
         table.setMin(buffer.readDouble());
@@ -67,10 +86,21 @@ public class MEAttrubes {
     }
     public void serialize(FriendlyByteBuf buf) {//反序列化
         buf.writeUtf(this.ID);
-        buf.writeUtf(this.Name);
+        buf.writeUtf(this.name);
         buf.writeDouble(this.min);
         buf.writeDouble(this.max);
         buf.writeDouble(this.value);
         buf.writeBoolean(this.start);
     }
+
+    public void copyFrom(MEAttribute attribute) {
+        if (this.ID.equals(attribute.ID)) {
+            this.min = attribute.min;
+            this.max = attribute.max;
+            this.value = attribute.value;
+            this.start = attribute.start;
+            this.name = attribute.name;
+        }
+    }
+
 }
