@@ -1,4 +1,4 @@
-package mutantescape.client.render;
+package mutantescape.client.render.ui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

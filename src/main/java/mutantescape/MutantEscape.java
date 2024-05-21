@@ -1,5 +1,6 @@
 package mutantescape;
 
+import mutantescape.level.register.EntityRegister;
 import mutantescape.network.PacketHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -15,6 +16,7 @@ public class MutantEscape {
     public MutantEscape() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
+        EntityRegister.ENTITYS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
