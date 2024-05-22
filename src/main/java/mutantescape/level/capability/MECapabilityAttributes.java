@@ -1,5 +1,6 @@
 package mutantescape.level.capability;
 
+import mutantescape.client.config.MEConfig;
 import mutantescape.tools.IkeySet;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -12,9 +13,10 @@ public class MECapabilityAttributes implements ICapability {
     private boolean needSync = false;
 
     public MECapabilityAttributes() {
-        add("","evolution_stage_value",0.0d,100.0,0.0d,false);
-        add("test broadcast value","test_broadcast",0.0d,100.0,0.0d,true, false);
-        add("test onlyC2S value","test_onlyC2S",0.0d,100.0,0.0d,true, true);
+        add("","evolution_stage_value",0.0d, MEConfig.stage_value,MEConfig.stage_value,false);
+        add("","protection_period",0.0d, Double.valueOf(MEConfig.protection_period),Double.valueOf(MEConfig.protection_period),false);
+        add("","reason_value",-100.0d, MEConfig.reason_value,MEConfig.reason_value,false);
+
     }
 
     @Override

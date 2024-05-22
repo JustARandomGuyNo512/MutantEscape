@@ -1,4 +1,4 @@
-package mutantescape.client.render.ui;
+package mutantescape.client.render.hud;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -7,7 +7,7 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class StageRender {
     public static final IGuiOverlay OVERLAY = StageRender::render;
-    public static boolean complete = true;
+    public static boolean complete;
     private static void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float v, int i, int i1) {
         Minecraft minecraft = Minecraft.getInstance();
         if (complete && !minecraft.options.renderDebug) {

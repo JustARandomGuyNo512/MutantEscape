@@ -15,9 +15,10 @@ public class EntityRegister {
         return ENTITYS.register(registryname, () -> (EntityType<T>) entityTypeBuilder.build(registryname));
     }
 
-    public static final RegistryObject<EntityType<Exaple_Entity>> EXPALE_ENTITY=register(IkeySet.ModKey("expale_entity")
-            , EntityType.Builder.<Exaple_Entity>of(Exaple_Entity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Exaple_Entity::new)
+    public static final RegistryObject<EntityType<Exple_entity>> Master_Catalog=register(IkeySet.ModKey("Master_Catalog")
+            , EntityType.Builder.<Exple_entity>of(Exple_entity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Exple_entity::new)
                     .sized(0.6f, 1.8f));
+
 
 
 

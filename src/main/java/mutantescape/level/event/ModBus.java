@@ -1,6 +1,10 @@
 package mutantescape.level.event;
 
-import mutantescape.client.render.ui.StageRender;
+import mutantescape.client.render.hud.StageRender;
+import mutantescape.level.register.EntityRegister;
+import mutantescape.level.register.Exaple_Render;
+import mutantescape.level.register.Exple_entity;
+import mutantescape.level.register.IEntityModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -18,11 +22,14 @@ public class ModBus {
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
 
+        event.put(EntityRegister.Master_Catalog.get(), Exple_entity.createAttributes().build());
+
+
     }
 
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-
+        event.registerEntityRenderer(EntityRegister.Master_Catalog.get(),  Exaple_Render::new);
     }
 
     @SubscribeEvent
@@ -55,4 +62,8 @@ public class ModBus {
         StageRender.complete=true;
     }
 
+    @SubscribeEvent
+    public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(Exaple_Render.EXAMPLE_ENTITY, IEntityModel::createBodyLayer);
+    }
 }

@@ -21,8 +21,7 @@ public class DebugEvents {
             event.setResult(Event.Result.ALLOW);
             Component component = event.getContent();
             player.getCapability(MECapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
-                component.getSiblings().add(Component.literal("Test broadcast value: " + capability.getAttrValue("test_broadcast")));
-                component.getSiblings().add(Component.literal("Test onlyC2S value: " + capability.getAttrValue("test_onlyC2S")));
+
             }));
         }
     }
