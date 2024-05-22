@@ -118,6 +118,14 @@ public class MECapabilityAttributes implements ICapability {
         }
     }
 
+    public String getAttrName(String ID) {
+        MEAttribute meAttribute = get(ID);
+        if (meAttribute != null) {
+            return meAttribute.getName();
+        }
+        return null;
+    }
+
     public void setAttrMax(String ID, double max) {
         MEAttribute meAttribute = get(ID);
         if (meAttribute != null) {
@@ -128,6 +136,14 @@ public class MECapabilityAttributes implements ICapability {
             meAttribute.needSync = true;
             this.needSync = true;
         }
+    }
+
+    public double getAttrMax(String ID) {
+        MEAttribute meAttribute = get(ID);
+        if (meAttribute != null) {
+            return meAttribute.getMax();
+        }
+        return -1;
     }
 
     public void setAttrMin(String ID, double min) {
@@ -141,6 +157,15 @@ public class MECapabilityAttributes implements ICapability {
             this.needSync = true;
         }
     }
+
+    public double getAttrMin(String ID) {
+        MEAttribute meAttribute = get(ID);
+        if (meAttribute != null) {
+            return meAttribute.getMin();
+        }
+        return -1;
+    }
+
     public void setAttrValue(String ID, double value) {
         MEAttribute meAttribute = get(ID);
         if (meAttribute != null) {
@@ -171,6 +196,14 @@ public class MECapabilityAttributes implements ICapability {
             meAttribute.needSync = true;
             this.needSync = true;
         }
+    }
+
+    public boolean getAttrStart(String ID) {
+        MEAttribute meAttribute = get(ID);
+        if (meAttribute != null) {
+            return meAttribute.start;
+        }
+        return false;
     }
 
 }

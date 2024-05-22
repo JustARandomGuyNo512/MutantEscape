@@ -15,6 +15,7 @@ public class Exaple_Render extends MobRenderer<Exple_entity, IEntityModel<Exple_
 
 
     public Exaple_Render(EntityRendererProvider.Context context) {
+
         super(context, new IEntityModel<>(context.bakeLayer(EXAMPLE_ENTITY)), 0.5f);
     }
 

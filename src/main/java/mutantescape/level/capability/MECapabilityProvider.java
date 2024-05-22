@@ -18,6 +18,7 @@ public class MECapabilityProvider implements ICapabilityProvider, INBTSerializab
 
     private final LazyOptional<MECapabilityAttributes> optional=LazyOptional.of(this::createAttribute);
 
+    @NotNull
     private MECapabilityAttributes createAttribute() {
         if (this.H2ATTRIBUTE==null){
             this.H2ATTRIBUTE=new MECapabilityAttributes();
@@ -25,7 +26,6 @@ public class MECapabilityProvider implements ICapabilityProvider, INBTSerializab
         return this.H2ATTRIBUTE;
 
     }
-
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
