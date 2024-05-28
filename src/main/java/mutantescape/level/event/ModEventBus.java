@@ -1,10 +1,10 @@
 package mutantescape.level.event;
 
+import mutantescape.client.render.entity.model.IEntityModel;
+import mutantescape.client.render.entity.Exaple_Render;
 import mutantescape.client.render.hud.StageRender;
-import mutantescape.level.register.EntityRegister;
-import mutantescape.level.register.Exaple_Render;
-import mutantescape.level.register.Exple_entity;
-import mutantescape.level.register.IEntityModel;
+import mutantescape.level.register.*;
+import mutantescape.level.register.entity.Exple_entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -17,25 +17,36 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 
+
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ModBus {
+public class ModEventBus {
+
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
-
-        event.put(EntityRegister.Master_Catalog.get(), Exple_entity.createAttributes().build());
+        event.put(RegisterEntity.Master_Catalog.get(), Exple_entity.createAttributes().build());
 
 
     }
+
+
+
 
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(EntityRegister.Master_Catalog.get(),  Exaple_Render::new);
+
+
+        event.registerEntityRenderer(RegisterEntity.Master_Catalog.get(),  Exaple_Render::new);
     }
+
+
+
 
     @SubscribeEvent
     public static void onEntityAttributeModification(EntityAttributeModificationEvent event) {
 
     }
+
+
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
@@ -64,6 +75,7 @@ public class ModBus {
 
     @SubscribeEvent
     public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(Exaple_Render.EXAMPLE_ENTITY, IEntityModel::createBodyLayer);
+        event.registerLayerDefinition(IEntityModel.EXAMPLE_ENTITY, IEntityModel::createBodyLayer);
+
     }
 }

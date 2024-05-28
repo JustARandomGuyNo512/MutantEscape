@@ -1,10 +1,11 @@
-package mutantescape.level.register;// Made with Blockbench 4.10.1
+package mutantescape.client.render.entity.model;// Made with Blockbench 4.10.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import mutantescape.MutantEscape;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
@@ -23,7 +24,8 @@ import org.joml.Vector3f;
 
 public class IEntityModel<T extends LivingEntity> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "eee"), "main");
+	public static final ModelLayerLocation EXAMPLE_ENTITY = new ModelLayerLocation(new ResourceLocation(MutantEscape.MODID, "example_entity"), "main");
+
 	private final ModelPart root;
 	private long createdTime;
 

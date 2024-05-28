@@ -11,9 +11,5 @@ public class zh_cn extends LanguageProvider {
     }
     @Override
     protected void addTranslations() {
-
-
-
-
     }
 }

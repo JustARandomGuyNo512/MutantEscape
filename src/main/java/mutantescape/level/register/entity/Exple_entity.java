@@ -1,5 +1,6 @@
-package mutantescape.level.register;
+package mutantescape.level.register.entity;
 
+import mutantescape.level.register.RegisterEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -9,12 +10,13 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PlayMessages;
 
 public class Exple_entity extends Monster {
-    protected Exple_entity(EntityType<? extends Monster> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public Exple_entity(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        super(RegisterEntity.Master_Catalog.get(),level);
     }
 
-    public Exple_entity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        super(EntityRegister.Master_Catalog.get(),level);
+    public Exple_entity(EntityType<Exple_entity> expleEntityEntityType, Level level) {
+        super(expleEntityEntityType,level);
+
     }
 
     public static AttributeSupplier.Builder createAttributes() {

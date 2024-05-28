@@ -1,7 +1,6 @@
 package mutantescape.level.capability;
 
-import mutantescape.client.config.MEConfig;
-import mutantescape.tools.IkeySet;
+import mutantescape.tools.ModSet;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
@@ -13,9 +12,9 @@ public class MECapabilityAttributes implements ICapability {
     private boolean needSync = false;
 
     public MECapabilityAttributes() {
-        add("","evolution_stage_value",0.0d, MEConfig.stage_value,MEConfig.stage_value,false);
-        add("","protection_period",0.0d, Double.valueOf(MEConfig.protection_period),Double.valueOf(MEConfig.protection_period),false);
-        add("","reason_value",-100.0d, MEConfig.reason_value,MEConfig.reason_value,false);
+        add("","evolution_stage_value",0.0d, Double.MAX_VALUE,100.0,false);
+        add("","protection_period",0.0d, Double.MAX_VALUE, 7.0,false);
+        add("","reason_value",-100.0d, Double.MAX_VALUE,0.0,false);
 
     }
 
@@ -54,7 +53,7 @@ public class MECapabilityAttributes implements ICapability {
                 dataTag.putBoolean("onlyC2S",tab.isOnlyC2S());
                 tagList.add(dataTag);
             });
-            tag.put(IkeySet.ModKey("attribute"), tagList);
+            tag.put(ModSet.ModKey("attribute"), tagList);
         }
         return tag;
     }
@@ -64,8 +63,8 @@ public class MECapabilityAttributes implements ICapability {
         if (this.Data==null){
             this.Data=new HashMap<>();
         }
-        if (tag.contains(IkeySet.ModKey("attribute"), 9)) {
-            ListTag dataList = tag.getList(IkeySet.ModKey("attribute"), 10);
+        if (tag.contains(ModSet.ModKey("attribute"), 9)) {
+            ListTag dataList = tag.getList(ModSet.ModKey("attribute"), 10);
             dataList.forEach(dataTag -> {
                 if (dataTag instanceof CompoundTag compoundData) {
                     String id = compoundData.getString("id");
