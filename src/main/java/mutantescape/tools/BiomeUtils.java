@@ -47,7 +47,6 @@ public class BiomeUtils {
 
 
     public static void setPosBiome(ServerLevel level, BlockPos posIn, ResourceKey<Biome> biome) {
-        BiomeManager biomeManager = level.getBiomeManager();
         int i = posIn.getX() - 2;
         int j = posIn.getY() - 2;
         int k = posIn.getZ() - 2;
