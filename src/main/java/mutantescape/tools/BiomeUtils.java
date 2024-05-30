@@ -4,10 +4,7 @@ import io.netty.buffer.Unpooled;
 import mutantescape.network.PacketHandler;
 import mutantescape.network.s2c.UpdataBiomePaket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
@@ -17,26 +14,51 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.LinearCongruentialGenerator;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.*;
 
 import java.util.Optional;
 
+import static net.minecraft.world.level.block.SnowyDirtBlock.SNOWY;
+
 public class BiomeUtils {
     public static ServerPlayer ModServerPlayer;
-    public static ServerLevel ModServerLevel;
-    public static  Minecraft MC;
     static {
-        MC= Minecraft.getInstance();
-        if (MC.level!=null && MC.level.getServer() != null && MC.player != null) {
-            ModServerPlayer = MC.level.getServer().getPlayerList().getPlayer(MC.player.getUUID());
-            ModServerLevel=MC.level.getServer().overworld();
-
+        if (Minecraft.getInstance().player != null &&  Minecraft.getInstance().player.getServer()!=null) {
+            ModServerPlayer = (ServerPlayer) Minecraft.getInstance().player.getServer().overworld().getPlayerByUUID(Minecraft.getInstance().player.getUUID());
         }
     }
+
+    public static ServerLevel ModServerLevel;
+
+    public static boolean UndataServerPlayer(ServerPlayer serverPlayer){
+        if (serverPlayer!=null) {
+            ModServerPlayer = serverPlayer;
+            ModServerLevel = ModServerPlayer.serverLevel();
+        }
+        return ModServerPlayer!=null;
+    }
+
+
+
+    public static void spreadBlock(Block toSpread, ServerLevel serverLevel, BlockPos blockPos){
+        BlockPos randomPos = blockPos.relative(Direction.getRandom(RandomSource.createNewThreadLocalInstance()));
+        BlockState block = toSpread.defaultBlockState();
+        if (serverLevel.getBlockState(randomPos).getBlock() != Blocks.WATER && serverLevel.getBlockState(randomPos).getBlock() !=Blocks.AIR) {
+            serverLevel.setBlockAndUpdate(randomPos, block);
+            setBiome(serverLevel, blockPos, Biomes.BASALT_DELTAS);
+        }
+    }
+
+
 
     public static void setBiome(ServerLevel serverLevel, BlockPos blockPos, ResourceKey<Biome> biome) {
         setPosBiome(serverLevel,blockPos,biome);
@@ -69,7 +91,7 @@ public class BiomeUtils {
             double d4 = flag ? d0 : d0 - 1.0D;
             double d5 = flag1 ? d1 : d1 - 1.0D;
             double d6 = flag2 ? d2 : d2 - 1.0D;
-            double d7 = getFiddledDistance(BiomeManager.obfuscateSeed(ModServerLevel.getServer().getWorldData().worldGenOptions().seed()), i2, j2, k2, d4, d5, d6);
+            double d7 = getFiddledDistance(BiomeManager.obfuscateSeed(level.getServer().getWorldData().worldGenOptions().seed()), i2, j2, k2, d4, d5, d6);
             if (d3 > d7) {
                 k1 = l1;
                 d3 = d7;
@@ -138,10 +160,7 @@ public class BiomeUtils {
         }
         ((ServerChunkCache) level.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
             player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) level.getChunkSource()).getLightEngine(), null, null));
-            FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-            passedData.writeInt(chunkPos.x);
-            passedData.writeInt(chunkPos.z);
-            PacketHandler.sendToPlayer(new UpdataBiomePaket(),player);
+            PacketHandler.sendToPlayer(new UpdataBiomePaket(chunkPos.x,chunkPos.z),player);
         });
     }
 

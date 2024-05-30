@@ -3,6 +3,7 @@ package mutantescape.network;
 import mutantescape.MutantEscape;
 import mutantescape.network.c2s.SyncAttributesToServerPacket;
 import mutantescape.network.s2c.BroadcastAttributesToClientPacket;
+import mutantescape.network.s2c.UpdataBiomePaket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkRegistry;
@@ -21,6 +22,8 @@ public class PacketHandler
                 (s) ->true, (s) ->true);
         registerPacket(SyncAttributesToServerPacket.class, new SyncAttributesToServerPacket());
         registerPacket(BroadcastAttributesToClientPacket.class, new BroadcastAttributesToClientPacket());
+        registerPacket(UpdataBiomePaket.class,new UpdataBiomePaket());
+
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

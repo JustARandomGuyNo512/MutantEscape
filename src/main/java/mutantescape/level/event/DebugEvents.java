@@ -4,7 +4,9 @@ import mutantescape.level.capability.MECapabilityProvider;
 import mutantescape.tools.BiomeUtils;
 import mutantescape.tools.ModSet;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,6 +17,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.awt.event.KeyEvent;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -39,14 +42,15 @@ public class DebugEvents {
             if (player == null) {
                 return;
             }
-            if (event.getKey() == 321) {
-                if (player.getServer()!=null && player.getServer().overworld().getPlayerByUUID(player.getUUID())!=null) {
-                    BiomeUtils.setBiome(player.getServer().overworld().getLevel(),player.getServer().overworld().getPlayerByUUID(player.getUUID()).getOnPos(), Biomes.BASALT_DELTAS);
-                }
-                player.getCapability(MECapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
-                   capability.setAttrValue("test_broadcast", capability.getAttrValue("test_broadcast") + 1);
-                }));
+
+            if (event.getKey()==299){
+
+
             }
+
+
+
+
             if (event.getKey() == 322) {
                 player.getCapability(MECapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
                     capability.setAttrValue("test_onlyC2S", capability.getAttrValue("test_onlyC2S") + 1);

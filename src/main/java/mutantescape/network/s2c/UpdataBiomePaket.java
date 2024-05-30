@@ -1,34 +1,49 @@
 package mutantescape.network.s2c;
 
 import mutantescape.network.IPacket;
-import mutantescape.network.c2s.SyncUpdataBiomeToServerPacket;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.network.NetworkEvent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class UpdataBiomePaket implements IPacket<SyncUpdataBiomeToServerPacket> {
+public class UpdataBiomePaket implements IPacket<UpdataBiomePaket> {
+    private int chunkX;
+    private int chunkZ;
 
 
-    @Override
-    public void encode(SyncUpdataBiomeToServerPacket message, FriendlyByteBuf buffer) {
+
+    public UpdataBiomePaket() {
+
 
     }
 
-    @Override
-    public SyncUpdataBiomeToServerPacket decode(FriendlyByteBuf buffer) {
-        return null;
+    public UpdataBiomePaket(int x, int z) {
+        this.chunkX = x;
+        this.chunkZ = z;
     }
 
     @Override
-    public void handle(SyncUpdataBiomeToServerPacket message, Supplier<NetworkEvent.Context> supplier) {
-        /* 需要去实现这个操作
-       int chunkX = buf.readInt();
-            int chunkZ = buf.readInt();
-            if (context.getPlayer() != null) {
-                ((ClientLevel) context.getPlayer().level()).onChunkLoaded(new ChunkPos(chunkX, chunkZ));
+    public void encode(UpdataBiomePaket message, FriendlyByteBuf buffer) {
+        buffer.writeInt(this.chunkX);
+        buffer.writeInt(this.chunkZ);
+    }
+
+    @Override
+    public UpdataBiomePaket decode(FriendlyByteBuf buffer) {
+        return new UpdataBiomePaket(buffer.readInt(),buffer.readInt());
+    }
+
+    @Override
+    public void handle(UpdataBiomePaket message, Supplier<NetworkEvent.Context> supplier) {
+        @Nullable ServerPlayer player = supplier.get().getSender();
+            if (player != null) {
+                ((ClientLevel) player.level()).onChunkLoaded(new ChunkPos(chunkX, chunkZ));
             }
-         */
+
     }
 
 }

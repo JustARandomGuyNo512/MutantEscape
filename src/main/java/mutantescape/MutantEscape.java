@@ -3,6 +3,7 @@ package mutantescape;
 
 import mutantescape.level.register.*;
 import mutantescape.network.PacketHandler;
+import mutantescape.tools.BiomeUtils;
 import mutantescape.tools.Reflection;
 import net.minecraft.server.commands.DebugPathCommand;
 import net.minecraftforge.common.MinecraftForge;
