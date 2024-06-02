@@ -18,6 +18,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(MutantEscape.MODID)
 public class MutantEscape {
     public static final String MODID = "mutantescape";
+
+
     public static final String RESOURCE_PREFIX = MODID + ":";
     public MutantEscape() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

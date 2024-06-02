@@ -1,10 +1,13 @@
 package mutantescape.network.s2c;
 
+import mutantescape.Clients;
 import mutantescape.network.IPacket;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,10 +43,16 @@ public class UpdataBiomePaket implements IPacket<UpdataBiomePaket> {
     @Override
     public void handle(UpdataBiomePaket message, Supplier<NetworkEvent.Context> supplier) {
         @Nullable ServerPlayer player = supplier.get().getSender();
-            if (player != null) {
-                ((ClientLevel) player.level()).onChunkLoaded(new ChunkPos(chunkX, chunkZ));
-            }
+        supplier.get().enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                if (player != null) {
+                    ((ClientLevel) player.level()).onChunkLoaded(new ChunkPos(chunkX, chunkZ));
+                }
+        });
+        supplier.get().setPacketHandled(true);
 
-    }
 
+    });
+
+}
 }

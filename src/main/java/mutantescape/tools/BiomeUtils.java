@@ -1,17 +1,15 @@
 package mutantescape.tools;
 
-import io.netty.buffer.Unpooled;
+import mutantescape.level.register.RegisterBlock;
 import mutantescape.network.PacketHandler;
 import mutantescape.network.s2c.UpdataBiomePaket;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.*;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.LinearCongruentialGenerator;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -25,39 +23,100 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.*;
 
-import java.util.Optional;
 
-import static net.minecraft.world.level.block.SnowyDirtBlock.SNOWY;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class BiomeUtils {
-    public static ServerPlayer ModServerPlayer;
-    static {
-        if (Minecraft.getInstance().player != null &&  Minecraft.getInstance().player.getServer()!=null) {
-            ModServerPlayer = (ServerPlayer) Minecraft.getInstance().player.getServer().overworld().getPlayerByUUID(Minecraft.getInstance().player.getUUID());
-        }
+
+public class BiomeUtils{
+
+    private static final Set<Block> LIST_BLOCKS = new HashSet<>();
+    private static final Set<BlockPos> APositions = Collections.synchronizedSet(new HashSet<>());
+    private static final ExecutorService executor = Executors.newCachedThreadPool();
+
+    private static final AtomicInteger time = new AtomicInteger(0);
+    private static int SpreadValue;
+    private static final int Timeout=20;
+    private int ApoBlockSize=1000;
+    private static int Speed=1000;
+    private static ServerLevel level;
+    public  ServerLevel getLevel() {
+        return level;
     }
 
-    public static ServerLevel ModServerLevel;
+   static {
+       Timer timer = new Timer(true);
+       TimerTask task = new TimerTask() {
+           @Override
+           public void run() {
+               if (level != null) {
+                   time.incrementAndGet();
+                   if (!LIST_BLOCKS.contains(Blocks.WATER)){
+                           LIST_BLOCKS.add(Blocks.WATER);
+                           LIST_BLOCKS.add(Blocks.BEDROCK);
+                           LIST_BLOCKS.add(Blocks.AIR);
+                           LIST_BLOCKS.add(Blocks.LAVA);
+                           LIST_BLOCKS.add(RegisterBlock.INFECTED_GRASS_BLOCK.get());
+                   }
 
-    public static boolean UndataServerPlayer(ServerPlayer serverPlayer){
-        if (serverPlayer!=null) {
-            ModServerPlayer = serverPlayer;
-            ModServerLevel = ModServerPlayer.serverLevel();
-        }
-        return ModServerPlayer!=null;
+
+               } else {
+                   APositions.clear();
+                   time.set(0);
+               }
+           }
+       };
+       timer.scheduleAtFixedRate(task, 0, Speed);
+   }
+
+
+
+    public void setLevel(ServerLevel level) {
+        BiomeUtils.level = level;
     }
 
+    public BiomeUtils(ServerLevel level) {
+        BiomeUtils.level = level;
 
+    }
 
-    public static void spreadBlock(Block toSpread, ServerLevel serverLevel, BlockPos blockPos){
+    public int SpreadBlock(Block toSpread, BlockPos blockPos) {
         BlockPos randomPos = blockPos.relative(Direction.getRandom(RandomSource.createNewThreadLocalInstance()));
         BlockState block = toSpread.defaultBlockState();
-        if (serverLevel.getBlockState(randomPos).getBlock() != Blocks.WATER && serverLevel.getBlockState(randomPos).getBlock() !=Blocks.AIR) {
-            serverLevel.setBlockAndUpdate(randomPos, block);
-            setBiome(serverLevel, blockPos, Biomes.BASALT_DELTAS);
+        if (!LIST_BLOCKS.contains(level.getBlockState(randomPos).getBlock())){
+        APositions.add(randomPos);
+        if (APositions.size()>=this.ApoBlockSize || time.get()>=Timeout){
+            HashSet<BlockPos> SetPos=new HashSet<>(APositions);
+            CompletableFuture<Set<BlockPos>> future = asyncMethod(this.getLevel(),SetPos,block.getBlock());
+            time.set(0);
+            APositions.clear();
         }
+        }
+        return SpreadValue;
+    }
+    private static void Spread(ServerLevel level, Block toSpread, BlockPos OffSetPos){
+            level.setBlockAndUpdate(OffSetPos,toSpread.defaultBlockState());
+            SpreadValue++;
+
     }
 
+    private static CompletableFuture<Set<BlockPos>> asyncMethod(ServerLevel level,Set<BlockPos> positions,Block toBlock) {
+        return CompletableFuture.supplyAsync(() -> {
+            positions.parallelStream().forEach(
+                    pos -> {
+                       level.getServer().execute(()->{
+                           Spread(level,toBlock,pos);
+                           if (ModSet.isSurface(level, pos.above())) {
+                               level.sendParticles(ParticleTypes.SCULK_SOUL,pos.getX(),pos.getY(),pos.getZ(),1,0,0,0,0.5);
+                               setBiome(level, pos.above(), Biomes.BASALT_DELTAS);
+                           }
+                       });
+                    }
+            );
+            return positions;
+        }, executor);
+    }
 
 
     public static void setBiome(ServerLevel serverLevel, BlockPos blockPos, ResourceKey<Biome> biome) {
