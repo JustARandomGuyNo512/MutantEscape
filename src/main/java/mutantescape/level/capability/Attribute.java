@@ -2,7 +2,7 @@ package mutantescape.level.capability;
 
 import net.minecraft.network.FriendlyByteBuf;
 
-public class MEAttribute {
+public class Attribute {
     String ID;
     String name;
     boolean needSync;
@@ -74,8 +74,8 @@ public class MEAttribute {
 
     boolean start;
     double min,max,value;
-    public static MEAttribute deserialize(FriendlyByteBuf buffer) {//序列化
-        MEAttribute table = new MEAttribute();
+    public static Attribute deserialize(FriendlyByteBuf buffer) {//序列化
+        Attribute table = new Attribute();
         table.setID(buffer.readUtf());
         table.setName(buffer.readUtf());
         table.setMin(buffer.readDouble());
@@ -93,7 +93,7 @@ public class MEAttribute {
         buf.writeBoolean(this.start);
     }
 
-    public void copyFrom(MEAttribute attribute) {
+    public void copyFrom(Attribute attribute) {
         if (this.ID.equals(attribute.ID)) {
             this.min = attribute.min;
             this.max = attribute.max;

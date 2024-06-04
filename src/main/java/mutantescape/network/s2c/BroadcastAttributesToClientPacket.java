@@ -1,7 +1,7 @@
 package mutantescape.network.s2c;
 
 import mutantescape.Clients;
-import mutantescape.level.capability.MEAttribute;
+import mutantescape.level.capability.Attribute;
 import mutantescape.network.IPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class BroadcastAttributesToClientPacket implements IPacket<BroadcastAttributesToClientPacket> {
-    List<MEAttribute> attributeList;
+    List<Attribute> attributeList;
     int entityID;
 
     public BroadcastAttributesToClientPacket() {}
 
-    public BroadcastAttributesToClientPacket(List<MEAttribute> attributeList, int entityID) {
+    public BroadcastAttributesToClientPacket(List<Attribute> attributeList, int entityID) {
         this.attributeList = attributeList;
         this.entityID = entityID;
     }
@@ -27,7 +27,7 @@ public class BroadcastAttributesToClientPacket implements IPacket<BroadcastAttri
     public void encode(BroadcastAttributesToClientPacket message, FriendlyByteBuf buffer) {
         buffer.writeInt(message.attributeList.size());
         buffer.writeInt(message.entityID);
-        for (MEAttribute attribute : message.attributeList) {
+        for (Attribute attribute : message.attributeList) {
             attribute.serialize(buffer);
         }
     }
@@ -36,9 +36,9 @@ public class BroadcastAttributesToClientPacket implements IPacket<BroadcastAttri
     public BroadcastAttributesToClientPacket decode(FriendlyByteBuf buffer) {
         int size = buffer.readInt();
         int entityID = buffer.readInt();
-        List<MEAttribute> attributes = new ArrayList<>(size);
+        List<Attribute> attributes = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            attributes.add(MEAttribute.deserialize(buffer));
+            attributes.add(Attribute.deserialize(buffer));
         }
         return new BroadcastAttributesToClientPacket(attributes, entityID);
     }

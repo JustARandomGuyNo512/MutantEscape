@@ -1,7 +1,7 @@
 package mutantescape.network.c2s;
 
-import mutantescape.level.capability.MEAttribute;
-import mutantescape.level.capability.MECapabilityProvider;
+import mutantescape.level.capability.Attribute;
+import mutantescape.level.capability.CapabilityProvider;
 import mutantescape.network.IPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,18 +12,18 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class SyncAttributesToServerPacket implements IPacket<SyncAttributesToServerPacket> {
-    public List<MEAttribute> attributes;
+    public List<Attribute> attributes;
 
     public  SyncAttributesToServerPacket() {}
 
-    public SyncAttributesToServerPacket(List<MEAttribute> attributes) {
+    public SyncAttributesToServerPacket(List<Attribute> attributes) {
         this.attributes = attributes;
     }
 
     @Override
     public void encode(SyncAttributesToServerPacket message, FriendlyByteBuf buffer) {
         buffer.writeInt(message.attributes.size());
-        for (MEAttribute attribute : message.attributes) {
+        for (Attribute attribute : message.attributes) {
             attribute.serialize(buffer);
         }
     }
@@ -31,9 +31,9 @@ public class SyncAttributesToServerPacket implements IPacket<SyncAttributesToSer
     @Override
     public SyncAttributesToServerPacket decode(FriendlyByteBuf buffer) {
         int size = buffer.readInt();
-        List<MEAttribute> attributes = new ArrayList<>(size);
+        List<Attribute> attributes = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            attributes.add(MEAttribute.deserialize(buffer));
+            attributes.add(Attribute.deserialize(buffer));
         }
         return new SyncAttributesToServerPacket(attributes);
     }
@@ -46,10 +46,10 @@ public class SyncAttributesToServerPacket implements IPacket<SyncAttributesToSer
             }
             ServerPlayer player = supplier.get().getSender();
             if (player != null) {
-                player.getCapability(MECapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
+                player.getCapability(CapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
                     boolean markNeedBroadCast = false;
-                    for (MEAttribute attribute : message.attributes) {
-                        MEAttribute target = capability.getProfession().get(attribute.getID());
+                    for (Attribute attribute : message.attributes) {
+                        Attribute target = capability.getProfession().get(attribute.getID());
                         if (target != null) {
                             target.copyFrom(attribute);
                             if (!target.isOnlyC2S()) {

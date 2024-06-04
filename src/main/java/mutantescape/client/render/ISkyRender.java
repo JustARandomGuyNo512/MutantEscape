@@ -1,4 +1,4 @@
-package mutantescape.level.event;
+package mutantescape.client.render;
 
 import mutantescape.client.render.sky.OverEffect;
 import net.minecraft.client.renderer.DimensionSpecialEffects;

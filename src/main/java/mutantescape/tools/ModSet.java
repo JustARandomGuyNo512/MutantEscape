@@ -73,6 +73,19 @@ public class ModSet {
         LOGGER.warn(log);
     }
 
+
+    public static void Error(String format, Object... args) {
+        LOGGER.error(String.format(format, args));
+    }
+
+    public static void Warn(String format, Object... args) {
+        LOGGER.warn(String.format(format, args));
+    }
+
+    public static void Info(String format, Object... args) {
+        LOGGER.info(String.format(format, args));
+    }
+
     public static boolean isSurface(Level world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
         Block block = blockState.getBlock();

@@ -11,5 +11,6 @@ public class zh_cn extends LanguageProvider {
     }
     @Override
     protected void addTranslations() {
+        add(MutantEscape.MODID+"."+"log.1","<#Color:337788>欢迎您:</Color> <#Color:00FF7F> <player> </Color> ，<#Color:221760>祝您玩的愉快! </Color>");
     }
 }

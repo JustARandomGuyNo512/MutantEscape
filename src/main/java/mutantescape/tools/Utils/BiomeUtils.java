@@ -1,13 +1,18 @@
-package mutantescape.tools;
+package mutantescape.tools.Utils;
 
 import mutantescape.level.register.RegisterBlock;
 import mutantescape.network.PacketHandler;
 import mutantescape.network.s2c.UpdataBiomePaket;
+import mutantescape.tools.ModSet;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.LinearCongruentialGenerator;
@@ -16,22 +21,27 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.*;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 public class BiomeUtils{
 
-    private static final Set<Block> LIST_BLOCKS = new HashSet<>();
+    private static Set<Block> LIST_BLOCKS =new HashSet<Block>();
     private static final Set<BlockPos> APositions = Collections.synchronizedSet(new HashSet<>());
     private static final ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -52,15 +62,6 @@ public class BiomeUtils{
            public void run() {
                if (level != null) {
                    time.incrementAndGet();
-                   if (!LIST_BLOCKS.contains(Blocks.WATER)){
-                           LIST_BLOCKS.add(Blocks.WATER);
-                           LIST_BLOCKS.add(Blocks.BEDROCK);
-                           LIST_BLOCKS.add(Blocks.AIR);
-                           LIST_BLOCKS.add(Blocks.LAVA);
-                           LIST_BLOCKS.add(RegisterBlock.INFECTED_GRASS_BLOCK.get());
-                   }
-
-
                } else {
                    APositions.clear();
                    time.set(0);
@@ -70,15 +71,31 @@ public class BiomeUtils{
        timer.scheduleAtFixedRate(task, 0, Speed);
    }
 
+   static void AddBlackList(){
+       LIST_BLOCKS.add(Blocks.WATER);
+       LIST_BLOCKS.add(Blocks.BEDROCK);
+       LIST_BLOCKS.add(Blocks.AIR);
+       LIST_BLOCKS.add(Blocks.LAVA);
+   }
+
+   public void loadBlockList(){
+        if (LIST_BLOCKS.size()==4) {
+            LIST_BLOCKS.add(RegisterBlock.INFECTED_GRASS_BLOCK.get());
+        }
+   }
 
 
     public void setLevel(ServerLevel level) {
         BiomeUtils.level = level;
     }
-
-    public BiomeUtils(ServerLevel level) {
-        BiomeUtils.level = level;
-
+    public static int getSpreadValue() {
+        return SpreadValue;
+    }
+    public static void setSpreadValue(int SprValue) {
+        SpreadValue=SprValue;
+    }
+    public BiomeUtils() {
+        AddBlackList();
     }
 
     public int SpreadBlock(Block toSpread, BlockPos blockPos) {
@@ -98,7 +115,6 @@ public class BiomeUtils{
     private static void Spread(ServerLevel level, Block toSpread, BlockPos OffSetPos){
             level.setBlockAndUpdate(OffSetPos,toSpread.defaultBlockState());
             SpreadValue++;
-
     }
 
     private static CompletableFuture<Set<BlockPos>> asyncMethod(ServerLevel level,Set<BlockPos> positions,Block toBlock) {
@@ -118,12 +134,10 @@ public class BiomeUtils{
         }, executor);
     }
 
-
     public static void setBiome(ServerLevel serverLevel, BlockPos blockPos, ResourceKey<Biome> biome) {
         setPosBiome(serverLevel,blockPos,biome);
         updateChunkAfterBiomeChange(serverLevel, new ChunkPos(blockPos));
     }
-
 
 
 
@@ -207,10 +221,6 @@ public class BiomeUtils{
         return (d0 - 0.5D) * 0.9D;
     }
 
-
-
-
-
     public static void updateChunkAfterBiomeChange(Level level, ChunkPos chunkPos) {
         LevelChunk chunkSafe = level.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
         if (chunkSafe == null) {
@@ -228,13 +238,34 @@ public class BiomeUtils{
 
 
 
+    public static void ReplaceBiomeTree(MinecraftServer server, ResourceLocation TreeResource) {
+        server.registryAccess().registries().forEach(
+                registryEntry -> {
+                    if (registryEntry.key().location().equals(Registries.CONFIGURED_FEATURE.location())) {
+                        Registry<PlacedFeature> placedFeatureRegistry = server.registryAccess().registryOrThrow(Registries.PLACED_FEATURE);
+                        Holder<PlacedFeature> customTreePlaced = placedFeatureRegistry.getHolderOrThrow(ResourceKey.create(Registries.PLACED_FEATURE, TreeResource));
+                        List<Holder.Reference<Biome>> biomeHolders = new ArrayList<>(server.registryAccess().registryOrThrow(Registries.BIOME).holders().toList());
+                        biomeHolders.forEach(
+                                biomeReference -> {
+                                    List<HolderSet<PlacedFeature>> generation = new ArrayList<>(biomeReference.value().getGenerationSettings().features());
+                                    for (int i = 0; i < generation.size(); i++) {
+                                        HolderSet<PlacedFeature> featureSet = generation.get(i);
+                                        List<Holder<PlacedFeature>> newFeatures = featureSet.stream()
+                                                .map(feature -> {
+                                                    if (feature.value().feature().is(TreeFeatures.OAK)) {
+                                                        return customTreePlaced;
+                                                    }
+                                                    return feature;
+                                                })
+                                                .collect(Collectors.toCollection(ArrayList::new));
+                                        generation.set(i, HolderSet.direct(newFeatures));
+                                    }
+                                    //待处理
+                                }
+                        );
 
-
-
-
-
-
-
-
-
+                    }
+                }
+        );
+    }
 }

@@ -19,13 +19,21 @@ public class Exple_entity extends Monster {
 
     }
 
+
+    @Override
+    protected void registerGoals() {
+        //this.goalSelector.addGoal(1,new MeleeAttackGoalA(this,1,true));
+
+        super.registerGoals();
+    }
+
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = Mob.createMobAttributes();
         builder = builder.add(Attributes.MOVEMENT_SPEED, 0.3);
         builder = builder.add(Attributes.MAX_HEALTH, 25);
         builder = builder.add(Attributes.ARMOR, 1.2);
         builder = builder.add(Attributes.ATTACK_DAMAGE, 4.0);
-        builder = builder.add(Attributes.FOLLOW_RANGE, 32);
+        builder = builder.add(Attributes.FOLLOW_RANGE, 128);
         return builder;
     }
 

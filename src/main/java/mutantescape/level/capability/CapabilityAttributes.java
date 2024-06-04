@@ -1,21 +1,24 @@
 package mutantescape.level.capability;
 
 import mutantescape.tools.ModSet;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MECapabilityAttributes implements ICapability {
-    private Map<String, MEAttribute> Data=new HashMap<>();
+public class CapabilityAttributes implements Capability {
+    private Map<String, Attribute> Data=new HashMap<>();
+
     private boolean needSync = false;
 
-    public MECapabilityAttributes() {
-        add("","evolution_stage_value",0.0d, Double.MAX_VALUE,100.0,false);
-        add("","protection_period",0.0d, Double.MAX_VALUE, 7.0,false);
-        add("","reason_value",-100.0d, Double.MAX_VALUE,0.0,false);
-
+    public CapabilityAttributes() {
+        if (getSize()<=0) {
+            add("", "evolution_stage_value", 0.0d, Double.MAX_VALUE, 100.0, false);
+            add("", "protection_period", 0.0d, Double.MAX_VALUE, 7.0, false);
+            add("", "reason_value", -100.0d, Double.MAX_VALUE, 0.0, false);
+        }
     }
 
     @Override
@@ -29,12 +32,12 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     @Override
-    public void copy(ICapability cap) {
+    public void copy(Capability cap) {
         Data = cap.getProfession();
     }
 
     @Override
-    public Map<String, MEAttribute> getProfession() {
+    public Map<String, Attribute> getProfession() {
         return Data;
     }
 
@@ -89,8 +92,8 @@ public class MECapabilityAttributes implements ICapability {
         this.Data.put(id,create(id,name,min,max,value,s, onlyC2S));
     }
 
-    public static MEAttribute create(String id, String name, Double min, Double max, Double value, boolean start, boolean onlyC2S){
-        MEAttribute TAB= new MEAttribute();
+    public static Attribute create(String id, String name, Double min, Double max, Double value, boolean start, boolean onlyC2S){
+        Attribute TAB= new Attribute();
         TAB.ID=id;
         TAB.name =name;
         TAB.max=max;
@@ -101,12 +104,16 @@ public class MECapabilityAttributes implements ICapability {
         return TAB;
     }
 
-    public MEAttribute get(String ID) {
+    public int getSize(){
+        return Data.size();
+    }
+
+    public Attribute get(String ID) {
         return Data.get(ID);
     }
 
     public void setAttrName(String ID, String name) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             if (meAttribute.name.equals(name)) {
                 return;
@@ -118,7 +125,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public String getAttrName(String ID) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             return meAttribute.getName();
         }
@@ -126,7 +133,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public void setAttrMax(String ID, double max) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             if (meAttribute.max == max) {
                 return;
@@ -138,7 +145,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public double getAttrMax(String ID) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             return meAttribute.getMax();
         }
@@ -146,7 +153,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public void setAttrMin(String ID, double min) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             if (meAttribute.min == min) {
                 return;
@@ -158,7 +165,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public double getAttrMin(String ID) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             return meAttribute.getMin();
         }
@@ -166,7 +173,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public void setAttrValue(String ID, double value) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             if (meAttribute.value == value) {
                 return;
@@ -178,7 +185,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public double getAttrValue(String ID) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             return meAttribute.getValue();
         }
@@ -186,7 +193,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public void setAttrStart(String ID, boolean start) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             if (meAttribute.start == start) {
                 return;
@@ -198,7 +205,7 @@ public class MECapabilityAttributes implements ICapability {
     }
 
     public boolean getAttrStart(String ID) {
-        MEAttribute meAttribute = get(ID);
+        Attribute meAttribute = get(ID);
         if (meAttribute != null) {
             return meAttribute.start;
         }

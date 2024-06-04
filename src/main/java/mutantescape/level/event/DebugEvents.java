@@ -1,14 +1,9 @@
 package mutantescape.level.event;
 
-import mutantescape.level.capability.MECapabilityProvider;
-import mutantescape.tools.BiomeUtils;
-import mutantescape.tools.ModSet;
+import mutantescape.level.capability.CapabilityProvider;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
@@ -16,9 +11,6 @@ import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.awt.event.KeyEvent;
-import java.util.Objects;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class DebugEvents {
@@ -28,7 +20,7 @@ public class DebugEvents {
         if (event.getEntity() instanceof Player player) {
             event.setResult(Event.Result.ALLOW);
             Component component = event.getContent();
-            player.getCapability(MECapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
+            player.getCapability(CapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
 
             }));
         }
@@ -52,7 +44,7 @@ public class DebugEvents {
 
 
             if (event.getKey() == 322) {
-                player.getCapability(MECapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
+                player.getCapability(CapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
                     capability.setAttrValue("test_onlyC2S", capability.getAttrValue("test_onlyC2S") + 1);
                 }));
             }

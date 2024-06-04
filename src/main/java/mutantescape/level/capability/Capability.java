@@ -4,11 +4,11 @@ import net.minecraft.nbt.CompoundTag;
 
 import java.util.Map;
 
-public interface ICapability {
+public interface Capability {
     boolean isNeedSync();
     void setNeedSync(boolean needSync);
-    void copy(ICapability cap);
-    Map<String, MEAttribute> getProfession();
+    void copy(Capability cap);
+    Map<String, Attribute> getProfession();
     CompoundTag saveNbtData(CompoundTag tag);
     void loadNbtData(CompoundTag tag);
     void add(String id,String name,Double min,Double max,Double value,Boolean s);
