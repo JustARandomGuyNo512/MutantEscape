@@ -6,6 +6,7 @@ import mutantescape.client.render.entity.model.IEntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import static mutantescape.client.render.entity.model.IEntityModel.*;
 
@@ -20,7 +21,7 @@ public class Exaple_Render extends MobRenderer<Exple_entity, IEntityModel<Exple_
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Exple_entity pEntity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull Exple_entity pEntity) {
         return TEXTURES_LOCATION;
     }
 

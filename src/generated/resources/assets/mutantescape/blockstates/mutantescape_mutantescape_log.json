@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "mutantescape:block/mutantescape_mutantescape_log",
+      "x": 90
+    },
+    "axis=y": {
+      "model": "mutantescape:block/mutantescape_mutantescape_log"
+    },
+    "axis=z": {
+      "model": "mutantescape:block/mutantescape_mutantescape_log",
+      "y": 90
+    }
+  }
+}

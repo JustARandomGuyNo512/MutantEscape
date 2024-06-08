@@ -21,20 +21,20 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 public class MutantEscape {
     public static final String MODID = "mutantescape";
 
-
-    public static final String RESOURCE_PREFIX = MODID + ":";
     public MutantEscape() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();;
         modEventBus.addListener(this::commonSetup);
-        Attrubes.Regiister();
         RegisterEntity.ENTITYS.register(modEventBus);
-        RegisterItem.ITEMS.register(modEventBus);
         RegisterEffect.EFFECTS.register(modEventBus);
         RegisterBlock.BLOCKS.register(modEventBus);
+        RegisterItem.ITEMS.register(modEventBus);
         RegisterGroup.CREATIVE_MODE_TABS.register(modEventBus);
         RegisterFeatures.FEATURES.register(modEventBus);
+        RegisterParticleTypes.REGISTRY.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
+        Attrubes.Regiister();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(Attrubes::RangeAttribute);
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -43,15 +43,16 @@ public class MutantEscape {
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("notch");//启用mixin
        // ModLoader.get().postEvent();
 
+
     }
+
+
 
 
     @SubscribeEvent
     public void registerCommands(RegisterCommandsEvent event) {
         DebugPathCommand.register(event.getDispatcher());
     }
-
-
 
 
 

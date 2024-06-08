@@ -2,28 +2,30 @@ package mutantescape.level.event;
 
 import mutantescape.client.render.entity.model.IEntityModel;
 import mutantescape.client.render.entity.Exaple_Render;
-import mutantescape.client.render.hud.Stage;
+import mutantescape.client.render.overlay.Stage;
 import mutantescape.level.register.*;
+import mutantescape.level.register.Particle.Factory.DamageParticleFactory;
 import mutantescape.level.register.entity.Exple_entity;
-import mutantescape.level.register.event.BiomeGeneration;
 
 import mutantescape.tools.ModSet;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import mutantescape.tools.Utils.BiomeUtils;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterStructureConversionsEvent;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.registries.RegisterEvent;
 
 
 public class ModEventBus {
+
+
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     static class AttributeEvent{
         @SubscribeEvent
@@ -52,14 +54,25 @@ public class ModEventBus {
         @SubscribeEvent
         public static void onLoadComplete(FMLLoadCompleteEvent event) {
             Stage.complete=true;
+
         }
+
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+
+
+        }
+
+
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     static class common{
+        @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void registerParticles(RegisterParticleProvidersEvent event) {
 
+            event.registerSpriteSet(RegisterParticleTypes.DamageNorber.get(), DamageParticleFactory::new);
         }
 
         @SubscribeEvent
@@ -67,13 +80,20 @@ public class ModEventBus {
 
         }
 
+        @SubscribeEvent
+        public static void onClientSetupEvent(FMLClientSetupEvent event) {
+
+        }
+
 
 
     }
 
 
+    @SubscribeEvent
+    public static void onAddReloadListener(AddReloadListenerEvent event) {
+        event.getConditionContext();
 
 
-
-
+    }
 }

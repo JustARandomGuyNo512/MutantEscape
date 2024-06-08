@@ -23,8 +23,9 @@ public class ModSet {
     private static final Set<Block> TRANSPARENT_BLOCKS = new HashSet<>();
     public static  Minecraft MC;
     static {
-        MC= Minecraft.getInstance();
-            if (MC.level!=null && MC.level.getServer() != null && MC.player != null) {
+        MC=Minecraft.getInstance();
+        if (MC!=null) {
+            if (MC.level != null && MC.level.getServer() != null && MC.player != null) {
                 ModServerPlayer = MC.level.getServer().getPlayerList().getPlayer(MC.player.getUUID());
 
             }
@@ -41,6 +42,7 @@ public class ModSet {
                 TRANSPARENT_BLOCKS.add(Blocks.GRASS);
                 TRANSPARENT_BLOCKS.add(Blocks.VINE);
             }
+        }
     }
     private static final Logger LOGGER = LogUtils.getLogger();
 

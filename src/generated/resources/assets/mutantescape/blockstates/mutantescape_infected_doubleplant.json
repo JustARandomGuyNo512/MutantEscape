@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "mutantescape:block/mutantescape_infected_doubleplant_bottom"
+    },
+    "half=upper": {
+      "model": "mutantescape:block/mutantescape_infected_doubleplant"
+    }
+  }
+}

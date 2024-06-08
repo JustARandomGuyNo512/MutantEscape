@@ -1,9 +1,9 @@
 package mutantescape.tools;
 
+import mutantescape.tools.font.ComponentA;
+import mutantescape.tools.font.MutableComponetA;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 
 public class RegexTest {
-    static MutableComponent component;
+    static MutableComponetA component;
 
    static class SY{
         public SY(String t1, String t2, String t3) {
@@ -44,7 +44,7 @@ public class RegexTest {
     }
 
    public static Component GetText(Entity entity, String string){
-       component=Component.literal("");
+       component= ComponentA.literal("");
        ArrayList<SY> Sytext = SetInput(string);
        Sytext.forEach(
                sy -> {
@@ -63,12 +63,12 @@ public class RegexTest {
                            Text=Text.replace("<time-day>",String.valueOf(day));
                            Text=Text.replace("<time-hour>",String.valueOf(hour));
                            Text=Text.replace("<time-minute>",String.valueOf(minute));
-                           component.append(Component.literal(Text).setStyle(Style.EMPTY.withColor(TextColor.parseColor(sy.t2))));
+                           component.append( ComponentA.literal(Text).setStyle(Style.EMPTY.withColor(TextColor.parseColor(sy.t2))));
                        }
 
                }
        );
-       return component;
+       return  component;
 
    }
 

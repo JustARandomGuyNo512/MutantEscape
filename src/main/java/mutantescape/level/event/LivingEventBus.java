@@ -2,8 +2,10 @@ package mutantescape.level.event;
 
 
 import mutantescape.level.event.function.EntityDeathSpread;
+import mutantescape.level.register.Particle.ParticleType.DamageParticleData;
 import mutantescape.level.register.entity.goal.BlockBreakerGoal;
 import mutantescape.level.register.entity.goal.NearestAttackTargetGoal;
+import mutantescape.tools.ModSet;
 import mutantescape.tools.Utils.MCUtils;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.TreeFeatures;
@@ -54,6 +56,20 @@ public class LivingEventBus {
 
         @SubscribeEvent
         public static void onLivingDamage(LivingDamageEvent event) {
+            LivingEntity entity = event.getEntity();
+            if (entity.level().isClientSide){
+                return;
+            }
+
+            double x = entity.getX();
+            double y = entity.getY() + entity.getBbHeight() / 2.0;
+            double z = entity.getZ();
+            String damageText = String.valueOf((int) event.getAmount());
+            if (entity.level() instanceof ServerLevel) {
+                ((ServerLevel) entity.level()).sendParticles(new DamageParticleData(damageText), x, y, z, 1, 0.0, 0.0, 0.0, 0.5);
+            }
+
+
 
         }
 

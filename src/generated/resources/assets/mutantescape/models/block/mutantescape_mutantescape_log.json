@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "mutantescape:block/mutantescape_log_top",
+    "side": "mutantescape:block/mutantescape_log_side"
+  }
+}

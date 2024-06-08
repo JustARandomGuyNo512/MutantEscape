@@ -7,6 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
@@ -33,8 +34,12 @@ public class ForgeEventBus {
     }
     @SubscribeEvent
     public static void onServerStarting(ServerStartingEvent event) {
-        BiomeUtils.ReqBiome(event.getServer(),new ResourceLocation("minecraft", "cherry"));
 
     }
+
+
+
+
+
 
 }

@@ -1,0 +1,24 @@
+package mutantescape.client.render.overlay;
+
+import mutantescape.level.capability.CapabilityProvider;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+
+
+public class Stage {
+    public static final IGuiOverlay OVERLAY = Stage::render;
+    public static boolean complete;
+
+    private static void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float v, int i, int i1) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (complete && !minecraft.options.renderDebug) {
+            if (minecraft.player != null) {
+                minecraft.player.getCapability(CapabilityProvider.PLAYER_ATTRIBUTE).ifPresent((capability -> {
+
+                    }));
+}
+        }
+    }
+}

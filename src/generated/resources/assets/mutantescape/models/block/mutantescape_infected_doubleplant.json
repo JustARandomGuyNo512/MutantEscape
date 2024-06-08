@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cross",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "cross": "mutantescape:block/mutantescape_infected_doubleplant",
+    "particle": "mutantescape:block/mutantescape_infected_doubleplant"
+  }
+}
