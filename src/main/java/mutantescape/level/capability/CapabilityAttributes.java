@@ -33,7 +33,8 @@ public class CapabilityAttributes implements Capability {
 
     @Override
     public void copy(Capability cap) {
-        Data = cap.getProfession();
+        Map<String, Attribute> other = cap.getProfession();
+        Data.putAll(other);
     }
 
     @Override
