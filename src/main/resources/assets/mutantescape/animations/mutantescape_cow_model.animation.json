@@ -1,0 +1,129 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.model.idle": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"vector": [0, "Math.cos(query.life_time * 200) * 16", 0]
+					}
+				},
+				"bone2": {
+					"rotation": {
+						"vector": [0, "-Math.cos(query.life_time * 200) * 16", 0]
+					}
+				}
+			}
+		},
+		"animation.model.move": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"vector": [0, "Math.cos(query.life_time * 200) * 16", 0]
+					}
+				},
+				"bone2": {
+					"rotation": {
+						"vector": [0, "-Math.cos(query.life_time * 200) * 16", 0]
+					}
+				},
+				"leg1": {
+					"rotation": {
+						"vector": ["Math.cos(query.life_time * 200) * 16", 0, 0]
+					}
+				},
+				"leg2": {
+					"rotation": {
+						"vector": ["-Math.cos(query.life_time * 200) * 16", 0, 0]
+					}
+				},
+				"leg3": {
+					"rotation": {
+						"vector": ["-Math.cos(query.life_time * 200) * 16", 0, 0]
+					}
+				},
+				"leg4": {
+					"rotation": {
+						"vector": ["Math.cos(query.life_time * 200) * 16", 0, 0]
+					}
+				}
+			}
+		},
+		"animation.model.moveto": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"vector": [0, "Math.cos(query.life_time * 200) * 16", 0]
+					}
+				},
+				"bone2": {
+					"rotation": {
+						"vector": [0, "-Math.cos(query.life_time * 200) * 16", 0]
+					}
+				},
+				"leg1": {
+					"rotation": {
+						"vector": ["Math.cos(query.life_time * 600) * 16", 0, 0]
+					}
+				},
+				"leg2": {
+					"rotation": {
+						"vector": ["-Math.cos(query.life_time * 600) * 16", 0, 0]
+					}
+				},
+				"leg3": {
+					"rotation": {
+						"vector": ["-Math.cos(query.life_time * 600) * 16", 0, 0]
+					}
+				},
+				"leg4": {
+					"rotation": {
+						"vector": ["Math.cos(query.life_time * 600) * 16", 0, 0]
+					}
+				}
+			}
+		},
+		"animation.model.attack": {
+			"animation_length": 0.5,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, -30, 0]
+						}
+					}
+				},
+				"bone2": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, 30, 0]
+						}
+					}
+				}
+			}
+		},
+		"animation.model.ide": {
+			"animation_length": 2.25,
+			"bones": {
+				"bone3": {
+					"rotation": {
+						"vector": ["0+math.cos(-50+query.anim_time*3700)*2", 0, "80+math.cos(-50+query.anim_time*3700)*2"]
+					},
+					"position": {
+						"vector": [5.6, -13.7, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

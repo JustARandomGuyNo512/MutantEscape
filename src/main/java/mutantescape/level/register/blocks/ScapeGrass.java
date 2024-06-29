@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ScapeGrass extends BushBlock {
     public ScapeGrass(Properties pProperties) {
-        super( pProperties.mapColor(MapColor.PLANT).sound(SoundType.GRASS).instabreak().noCollission().offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY));
+        super( pProperties.mapColor(MapColor.PLANT).sound(SoundType.GRASS).instabreak().emissiveRendering((bs, br, bp) -> true).noCollission().offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY));
     }
 
     @Override

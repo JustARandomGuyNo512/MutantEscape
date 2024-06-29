@@ -2,9 +2,6 @@ package mutantescape.level.register.entity.goal;
 
 
 import mutantescape.level.attributes.Attrubes;
-import mutantescape.level.register.RegisterEffect;
-import mutantescape.level.register.entity.Exple_entity;
-import mutantescape.tools.ModSet;
 import mutantescape.tools.Utils.MCUtils;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
@@ -66,12 +63,24 @@ public class NearestAttackTargetGoal<T extends LivingEntity> extends TargetGoal 
 
   void addEntity(){
         //只攻击这些生物
-      TargetEntity.add(Villager.class);
-      TargetEntity.add(ServerPlayer.class);
-      TargetEntity.add(LocalPlayer.class);
-      TargetEntity.add(IronGolem.class);
-      TargetEntity.add(Player.class);
+      TargetEntity.add(Pig.class);
+      TargetEntity.add(Cow.class);
       TargetEntity.add(Zombie.class);
+      TargetEntity.add(Villager.class);
+      TargetEntity.add(Fox.class);
+      TargetEntity.add(ServerPlayer.class);
+      TargetEntity.add(IronGolem.class);
+      TargetEntity.add(Pillager.class);
+      TargetEntity.add(PolarBear.class);
+      TargetEntity.add(Sheep.class);
+      TargetEntity.add(Wolf.class);
+      TargetEntity.add(Player.class);
+      TargetEntity.add(EnderDragon.class);
+      TargetEntity.add(ZombieVillager.class);
+      TargetEntity.add(Chicken.class);
+      TargetEntity.add(Spider.class);
+      TargetEntity.add(EnderMan.class);
+      TargetEntity.add(Horse.class);
   }
 
 

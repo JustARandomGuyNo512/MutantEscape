@@ -19,9 +19,14 @@ public class RegisterGroup {
              output.accept(RegisterItem.INFECTED_GRASS_BLOCK_ITEM.get());
              output.accept(RegisterItem.INFECTED_IRON_BLOCK_ITEM.get());
              output.accept(RegisterItem.INFECTED_GRASS_ITEM.get());
-             output.accept(RegisterItem.INFECTED_DOUBLEPLANT_ITEM.get());
              output.accept(RegisterItem.INFECTED_TREE1_ITEM.get());
              output.accept(RegisterItem.INFECTED_LEVES_ITEM.get());
+             output.accept(RegisterItem.INFECTED_FLOWER_ITEM.get());
+             output.accept(RegisterItem.INFECTED_FALLING_BLOCK_ITEM.get());
+             output.accept(RegisterItem.INFECTED_STONE_BLOCK_ITEM.get());
+             output.accept(RegisterItem.ITEM_VINE.get());
+             output.accept(RegisterItem.ITEM_ROTTING_FLRSH.get());
+
 
 
 

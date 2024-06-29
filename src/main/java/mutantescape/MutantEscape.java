@@ -1,10 +1,11 @@
 package mutantescape;
 
 
+import mutantescape.client.config.CommonConfig;
 import mutantescape.level.attributes.Attrubes;
 import mutantescape.level.register.*;
 
-import mutantescape.network.PacketHandler;
+import mutantescape.level.network.PacketHandler;
 import net.minecraft.server.commands.DebugPathCommand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -24,24 +25,25 @@ public class MutantEscape {
     public MutantEscape() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();;
         modEventBus.addListener(this::commonSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(Attrubes::RangeAttribute);
+        Attrubes.Regiister();
+        CommonConfig.register();
         RegisterEntity.ENTITYS.register(modEventBus);
         RegisterEffect.EFFECTS.register(modEventBus);
         RegisterBlock.BLOCKS.register(modEventBus);
         RegisterItem.ITEMS.register(modEventBus);
+        RegisterBiome.BIOMES.register(modEventBus);
         RegisterGroup.CREATIVE_MODE_TABS.register(modEventBus);
-        RegisterFeatures.FEATURES.register(modEventBus);
         RegisterParticleTypes.REGISTRY.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
-        Attrubes.Regiister();
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(Attrubes::RangeAttribute);
-
+        RegisterSounds.SOUND_EVENTS.register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         PacketHandler.register();
         MixinBootstrap.init();//启用mixin
+
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("notch");//启用mixin
-       // ModLoader.get().postEvent();
 
 
     }
@@ -53,11 +55,6 @@ public class MutantEscape {
     public void registerCommands(RegisterCommandsEvent event) {
         DebugPathCommand.register(event.getDispatcher());
     }
-
-
-
-
-
 
 
 

@@ -14,7 +14,7 @@ public class CapabilityAttributes implements Capability {
     private boolean needSync = false;
 
     public CapabilityAttributes() {
-        if (getSize()<=0) {
+        if (getSize()<=1) {
             add("", "evolution_stage_value", 0.0d, Double.MAX_VALUE, 100.0, false);
             add("", "protection_period", 0.0d, Double.MAX_VALUE, 7.0, false);
             add("", "reason_value", -100.0d, Double.MAX_VALUE, 0.0, false);

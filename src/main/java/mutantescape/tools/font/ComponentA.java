@@ -1,9 +1,13 @@
 package mutantescape.tools.font;
 
 import com.mojang.brigadier.Message;
+import mutantescape.tools.RegexTest;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +68,10 @@ public interface ComponentA extends FormattedText, Message,Component {
         return MutableComponetA.create(new LiteralContents(pText)
         );
     }
-
+    static Component translatable(Entity entity, String pKey) {
+        Language language = Language.getInstance();
+        String Text = language.getOrDefault(pKey);
+        return RegexTest.GetText(entity,Text);
+    }
 
 }

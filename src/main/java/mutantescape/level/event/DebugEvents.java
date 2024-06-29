@@ -1,6 +1,7 @@
 package mutantescape.level.event;
 
 import mutantescape.level.capability.CapabilityProvider;
+import mutantescape.level.register.entity.Player_Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +18,9 @@ public class DebugEvents {
 
     @SubscribeEvent
     public static void renderEntityName(RenderNameTagEvent event) {
+        if (event.getEntity() instanceof Player_Entity) {
+            event.setResult(Event.Result.ALLOW);
+        }
         if (event.getEntity() instanceof Player player) {
             event.setResult(Event.Result.ALLOW);
             Component component = event.getContent();

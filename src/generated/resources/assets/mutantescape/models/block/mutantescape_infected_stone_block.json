@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mutantescape:block/mutantescape_infected_stone_block"
+  }
+}

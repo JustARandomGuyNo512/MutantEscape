@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "snowy=false": {
       "model": "mutantescape:block/mutantescape_infected_grass_block"
+    },
+    "snowy=true": {
+      "model": "mutantescape:block/mutantescape_infected_grass_block_snowy"
     }
   }
 }

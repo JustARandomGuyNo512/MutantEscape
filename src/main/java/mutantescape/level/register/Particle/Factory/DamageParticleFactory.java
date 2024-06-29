@@ -1,8 +1,7 @@
 package mutantescape.level.register.Particle.Factory;
 
 import mutantescape.level.register.Particle.ParticleType.DamageParticleData;
-import mutantescape.level.register.Particle.TextParticle;
-import mutantescape.tools.ModSet;
+import mutantescape.level.register.Particle.DamageTextParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -18,6 +17,6 @@ public class DamageParticleFactory implements ParticleProvider<DamageParticleDat
     }
     @Override
     public Particle createParticle(DamageParticleData pType, @NotNull ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-        return new TextParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.spriteSet, pType.getText());
+        return new DamageTextParticle(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, this.spriteSet, pType.getText());
     }
 }

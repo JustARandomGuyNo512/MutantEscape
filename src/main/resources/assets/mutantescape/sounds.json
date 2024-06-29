@@ -1,0 +1,8 @@
+{
+  "mutantescape_death_sound": {
+    "category": "hostile",
+    "sounds": [
+      "mutantescape:mutantescape_death"
+    ]
+  }
+}

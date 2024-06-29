@@ -1,0 +1,121 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.model.move": {
+			"loop": true,
+			"bones": {
+				"bone8": {
+					"rotation": {
+						"vector": ["16-Math.cos(query.life_time * 300) * 25", 0, 0]
+					}
+				},
+				"bone": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"arms": {
+					"rotation": {
+						"vector": ["Math.cos(query.life_time * 300) * 40", 0, 0]
+					},
+					"position": {
+						"vector": [0, 1, 0.8]
+					}
+				},
+				"mirrored": {
+					"position": {
+						"vector": [0, 0, -0.1]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"vector": ["-Math.cos(query.life_time * 300) * 25", 0, 0]
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"vector": ["Math.cos(query.life_time * 300) * 25", 0, 0]
+					}
+				},
+				"bone11": {
+					"rotation": {
+						"vector": ["-Math.cos(query.life_time * 300) * 40", 0, 0]
+					},
+					"position": {
+						"vector": [0, 0, 1]
+					}
+				}
+			}
+		},
+		"animation.model.idle": {
+			"loop": true,
+			"animation_length": 1.25,
+			"bones": {
+				"bone8": {
+					"rotation": {
+						"vector": ["16+Math.cos(query.life_time * 300) * 25", 0, 0]
+					},
+					"position": {
+						"vector": [0, 0.7, 0]
+					}
+				},
+				"bone": {
+					"rotation": {
+						"vector": [0, 0, "-12+Math.cos(query.life_time * 300) * 25"]
+					}
+				},
+				"bone2": {
+					"rotation": {
+						"vector": [0, 0, "16-Math.cos(query.life_time * 300) * 25"]
+					}
+				},
+				"bone3": {
+					"rotation": {
+						"vector": ["-12+Math.cos(query.life_time * 300) * 25", 0, 0]
+					}
+				},
+				"bone13": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.model.ide": {
+			"animation_length": 1.25,
+			"bones": {
+				"bone13": {
+					"rotation": {
+						"vector": [0, "1+math.cos(-50+query.anim_time*3700)*4", 0]
+					}
+				}
+			}
+		},
+		"animation.model.attack": {
+			"animation_length": 2,
+			"bones": {
+				"arms": {
+					"rotation": {
+						"0.0": {
+							"vector": [-44, 0, 0]
+						},
+						"2.0": {
+							"vector": [-1, 0, 0]
+						}
+					}
+				},
+				"bone11": {
+					"rotation": {
+						"0.0": {
+							"vector": [-83, 0, 0]
+						},
+						"2.0": {
+							"vector": [-21, 0, 0]
+						}
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

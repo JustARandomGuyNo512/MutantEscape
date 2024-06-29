@@ -1,12 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "mutantescape.mixin",
+  "package": "mutantescape.level.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "mutantescape.refmap.json",
   "mixins": [
+    "MiXinAttributes"
   ],
   "client": [
+    "MixinRenderLevel"
   ],
   "injectors": {
     "defaultRequire": 1
